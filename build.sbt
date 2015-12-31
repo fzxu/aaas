@@ -7,6 +7,7 @@ scalaVersion := "2.11.7"
 val phantomVersion = "1.12.2"
 val akkaHttpVersion = "2.0.1"
 val json4sVersion = "3.3.0"
+val slf4jVersion = "1.7.13"
 
 resolvers ++= Seq(
   "Typesafe repository snapshots"    at "http://repo.typesafe.com/typesafe/snapshots/",
@@ -29,7 +30,9 @@ libraryDependencies ++= Seq(
   "com.sksamuel.scrimage" %% "scrimage-core" % "2.1.0",
   "org.json4s" %% "json4s-jackson" % json4sVersion,
   "org.json4s" %% "json4s-ext" % json4sVersion,
-  "org.json4s" %% "json4s-native" % json4sVersion
+  "org.json4s" %% "json4s-native" % json4sVersion,
+  "org.slf4j" % "slf4j-api" % slf4jVersion,
+  "org.slf4j" % "slf4j-simple" % slf4jVersion
 )
 
 assemblyMergeStrategy in assembly := {
