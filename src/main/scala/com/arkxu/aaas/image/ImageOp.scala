@@ -14,6 +14,7 @@ import scala.concurrent.Future
   */
 object ImageOp {
   val aaasConfig = ConfigFactory.load()
+  val tmpDir = aaasConfig.getString("aaas.tmpDir")
   val readQuality = aaasConfig.getInt("aaas.readQuality")
   implicit val write = JpegWriter.apply(readQuality, false)
 
@@ -22,7 +23,7 @@ object ImageOp {
     try {
       val img = Image.fromStream(imgIS).max(width, height)
       Future {
-        val out = new File("/tmp/" + cacheFileName)
+        val out = new File(tmpDir, cacheFileName)
         img.output(out)
       }
       img
@@ -50,7 +51,7 @@ object ImageOp {
       }
 
       Future {
-        val out = new File("/tmp/" + cacheFileName)
+        val out = new File(tmpDir, cacheFileName)
         img.output(out)
       }
       img
