@@ -28,7 +28,7 @@ brew install sbt
 Connect to Cassandra console:
 
 ```
-cqlsh
+$ cqlsh
 
 Connected to Test Cluster at 127.0.0.1:9042.
 [cqlsh 5.0.1 | Cassandra 2.2.3 | CQL spec 3.3.1 | Native protocol v4]
@@ -82,6 +82,9 @@ The endpoint to upload image: `http://localhost:8090/v1`
 
 Feel free to use any tools. e.g. [Postman](http://www.getpostman.com/) to send image to the server.
 
+(To make full use of the Akka Streams, the client side should use the same mechanism. 
+I will open source the test client later.)
+
 * Use Basic Authentication, default user/password: demo:demo
 
 ![Authentication](/docs/imgs/screen1.png)
@@ -96,7 +99,10 @@ Let's upload some images to `/foo/bar`
 
 * Files can be multiple
 
-In the response you will get the uploaded file UUID
+In the response you will get the uploaded file UUID.
+
+You may have already noticed two files were created at the same time. That is right! It is the `uploadParallelism`
+setting in the configuration.
 
 ![Authentication](/docs/imgs/screen4.png)
 
