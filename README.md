@@ -23,6 +23,24 @@ brew install sbt
 
 ## Quick Start
 
+* Create keyspace in Cassandra
+
+Connect to Cassandra console:
+
+```
+cqlsh
+
+Connected to Test Cluster at 127.0.0.1:9042.
+[cqlsh 5.0.1 | Cassandra 2.2.3 | CQL spec 3.3.1 | Native protocol v4]
+Use HELP for help.
+```
+
+Create the keyspace:
+
+```
+CREATE KEYSPACE aaas WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
+```
+
 * Clone this project
 
 ```
