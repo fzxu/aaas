@@ -3,7 +3,8 @@ Assets(Images only, for now) as a Service written in Scala using Akka Stream &am
 
 It only handles images with various resize/crop features and cache them in the disk for massive GET.
 
-AssS make full use of the Akka Http and Akka Stream which is well known as 'Reactive Streams'.
+AssS makes full use of the Akka Http and Akka Stream which is well known as 'Reactive Streams'. It should be a high
+performance image server.
 
 ## Preparation
 
@@ -71,7 +72,7 @@ Feel free to use any tools. e.g. [Postman](http://www.getpostman.com/) to send i
 
 * Choose file(s) to upload
 
-Let's upload some images to /foo/bar
+Let's upload some images to `/foo/bar`
 
 ![Authentication](/docs/imgs/screen3.png)
 
@@ -89,7 +90,7 @@ Open your browser and access the image using:
 
 You will get the image back in default sizes(Remember the default width/height in configuration?).
 
-You also can get the resized image in two modes: resize or crop
+You also can get the resized image in two modes: **resize** or **crop**
 
 ### Get Resized Image
 
@@ -106,9 +107,21 @@ Send GET request to the path you uploaded to, it will return all the image UUIDs
  
 `http://localhost:8090/v1/foo/bar/`
 
+## Delete Image(s)
+
+Send DELETE request (with authentication of course) to a single image, or to its parent folder:
+
+This will delete all the images under `/foo/bar`
+
+DELETE `http://localhost:8090/v1/foo/bar/`
+
+This deletes only one image with that specified UUID:
+
+DELETE `http://localhost:8090/v1/{UUID}.jpg`
+
 # Contribution
 
-Please request or contribute back with any recommendations/codes!
+Please request or contribute back with any features/codes!
 
 # License
 
