@@ -1,4 +1,4 @@
-# AssS
+# AaaS
 Assets(Images only, for now) as a Service written in Scala using Akka Stream &amp; Http and stores in Cassandra.
 
 It only handles images with various resize/crop features and cache them in the disk for massive GET.
