@@ -3,7 +3,7 @@ Assets(Images only, for now) as a Service written in Scala using Akka Stream &am
 
 It only handles images with various resize/crop features and cache them in the disk for massive GET.
 
-AssS makes full use of the Akka Http and Akka Stream which is well known as 'Reactive Streams'. It should be a high
+AaaS makes full use of the Akka Http and Akka Stream which is well known as 'Reactive Streams'. It should be a high
 performance image server.
 
 ## Preparation
@@ -38,7 +38,7 @@ Use HELP for help.
 Create the keyspace:
 
 ```
-CREATE KEYSPACE aaas WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
+CREATE KEYSPACE aaas WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 ```
 
 * Clone this project
