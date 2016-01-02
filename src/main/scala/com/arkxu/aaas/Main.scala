@@ -10,7 +10,7 @@ import scala.util.{Failure, Success}
   * Created by arkxu on 12/5/15.
   */
 
-object Main extends App with AssetsDataOperation with Routes{
+object Main extends App with Routes {
   val host = aaasConfig.getString("aaas.host")
   val port = aaasConfig.getInt("aaas.port")
 

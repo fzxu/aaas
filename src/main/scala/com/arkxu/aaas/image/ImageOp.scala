@@ -1,6 +1,6 @@
 package com.arkxu.aaas.image
 
-import java.io.{ByteArrayInputStream, File}
+import java.io.File
 
 import com.sksamuel.scrimage.Image
 import com.sksamuel.scrimage.nio.JpegWriter
@@ -19,44 +19,34 @@ object ImageOp {
   implicit val write = JpegWriter.apply(readQuality, false)
 
   def withCache(binary: Array[Byte], width: Int, height: Int, cacheFileName: String): Image = {
-    val imgIS = new ByteArrayInputStream(binary)
-    try {
-      val img = Image.fromStream(imgIS).max(width, height)
-      Future {
-        val out = new File(tmpDir, cacheFileName)
-        img.output(out)
-      }
-      img
-    } finally {
-      imgIS.close()
+    val img = Image(binary).max(width, height)
+    Future {
+      val out = new File(tmpDir, cacheFileName)
+      img.output(out)
     }
+    img
   }
 
   def resizeWithCache(binary: Array[Byte], resizeMode: String, width: Int, height: Int, cacheFileName: String): Image = {
-    val imgIS = new ByteArrayInputStream(binary)
-    try {
-      val img = resizeMode match {
-        case "z" => Image.fromStream(imgIS).max(width.toInt, height.toInt)
-        case "x" => {
-          val w = width.toInt
-          val h = height.toInt
-          if (w == 0) {
-            Image.fromStream(imgIS).cover(h, h)
-          } else if (h == 0) {
-            Image.fromStream(imgIS).cover(w, w)
-          } else {
-            Image.fromStream(imgIS).cover(w, h)
-          }
+    val img = resizeMode match {
+      case "z" => Image(binary).max(width.toInt, height.toInt)
+      case "x" => {
+        val w = width.toInt
+        val h = height.toInt
+        if (w == 0) {
+          Image(binary).cover(h, h)
+        } else if (h == 0) {
+          Image(binary).cover(w, w)
+        } else {
+          Image(binary).cover(w, h)
         }
       }
-
-      Future {
-        val out = new File(tmpDir, cacheFileName)
-        img.output(out)
-      }
-      img
-    } finally {
-      imgIS.close()
     }
+
+    Future {
+      val out = new File(tmpDir, cacheFileName)
+      img.output(out)
+    }
+    img
   }
 }
