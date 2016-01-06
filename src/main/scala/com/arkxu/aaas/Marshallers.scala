@@ -4,7 +4,7 @@ import java.util.UUID
 
 import com.arkxu.aaas.api.v1.AssetRsc
 import org.joda.time.DateTime
-import org.json4s.JsonAST.{JArray, JField, JObject, JString}
+import org.json4s.JsonAST.{JField, JObject, JString}
 import org.json4s.JsonDSL._
 import org.json4s.ext.{DateTimeSerializer, UUIDSerializer}
 import org.json4s.{CustomSerializer, DefaultFormats, Extraction}
