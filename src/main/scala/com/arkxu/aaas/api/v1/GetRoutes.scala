@@ -5,8 +5,9 @@ import java.io.File
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import com.arkxu.aaas.image.ImageOp
-import com.arkxu.aaas.modeling.operation.AssetsDataOperation
+import com.arkxu.aaas.model.operation.AssetsDataOperation
 import org.apache.commons.io.IOUtils
+import org.json4s.native.Serialization
 
 /**
   * Created by arkxu on 12/23/15.
@@ -56,12 +57,11 @@ trait GetRoutes extends BaseRoutes with AssetsDataOperation {
       } ~ path(Segments ~ Slash.?) { segments =>
         onSuccess(model.findByPath(segments)) {
           case assetsByPaths => {
-            val assetIds = assetsByPaths.map(_.id)
             complete {
               HttpResponse(
                 status = StatusCodes.OK,
                 entity = HttpEntity(ContentType(MediaTypes.`application/json`),
-                  org.json4s.native.Serialization.write(assetIds))
+                  Serialization.write(assetsByPaths))
               )
             }
           }

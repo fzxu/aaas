@@ -3,8 +3,9 @@ package com.arkxu.aaas
 import java.util.UUID
 
 import com.arkxu.aaas.api.v1.AssetRsc
+import com.arkxu.aaas.model.entity.AssetByPath
 import org.joda.time.DateTime
-import org.json4s.JsonAST.{JField, JObject, JString}
+import org.json4s.JsonAST.{JArray, JField, JObject, JString}
 import org.json4s.JsonDSL._
 import org.json4s.ext.{DateTimeSerializer, UUIDSerializer}
 import org.json4s.{CustomSerializer, DefaultFormats, Extraction}
@@ -14,7 +15,7 @@ import org.json4s.{CustomSerializer, DefaultFormats, Extraction}
   * Created by arkxu on 12/13/15.
   */
 object Marshallers {
-  lazy val all = Seq(AssetRscSerializer, UUIDSerializer)
+  lazy val all = Seq(AssetRscSerializer, UUIDSerializer, AssetByPathSerializer)
 }
 
 
@@ -35,4 +36,17 @@ case object AssetRscSerializer extends CustomSerializer[AssetRsc](format => ( {
 
     ("id" -> Extraction.decompose(id)) ~ ("name" -> name) ~ ("content_type" -> contentType) ~
       ("path" -> Extraction.decompose(path)) ~ ("created_at" -> Extraction.decompose(createdAt))
+}))
+
+case object AssetByPathSerializer extends CustomSerializer[AssetByPath](format => ( {
+  case JObject(JField("id", id) :: JField("path", JArray(path)) :: JField("name", JString(name))) =>
+
+    implicit val formats = DefaultFormats ++ Seq(UUIDSerializer)
+    AssetByPath(path.mkString(","), Extraction.extract[UUID](id), name)
+}, {
+  case AssetByPath(path, id, name) =>
+
+    implicit val formats = DefaultFormats ++ Seq(UUIDSerializer)
+
+    ("path" -> Extraction.decompose(path.split(","))) ~ ("id" -> Extraction.decompose(id)) ~ ("name" -> name)
 }))

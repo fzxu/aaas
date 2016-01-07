@@ -8,8 +8,8 @@ import akka.http.scaladsl.server.Directives._
 import akka.util.ByteString
 import com.datastax.driver.core.utils.UUIDs
 import com.arkxu.aaas.auth.BasicAuth
-import com.arkxu.aaas.modeling.entity.Asset
-import com.arkxu.aaas.modeling.operation.AssetsDataOperation
+import com.arkxu.aaas.model.entity.Asset
+import com.arkxu.aaas.model.operation.AssetsDataOperation
 import com.sksamuel.scrimage.Image
 import com.sksamuel.scrimage.nio.JpegWriter
 import org.joda.time.DateTime

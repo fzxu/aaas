@@ -1,4 +1,4 @@
-package com.arkxu.aaas.modeling.entity
+package com.arkxu.aaas.model.entity
 
 import java.nio.ByteBuffer
 import java.util.UUID

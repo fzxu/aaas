@@ -2,7 +2,7 @@ package com.arkxu.aaas.api.v1
 
 import akka.http.scaladsl.model.{StatusCodes, HttpResponse}
 import com.arkxu.aaas.auth.BasicAuth
-import com.arkxu.aaas.modeling.operation.AssetsDataOperation
+import com.arkxu.aaas.model.operation.AssetsDataOperation
 import akka.http.scaladsl.server.Directives._
 
 import scala.concurrent.Future

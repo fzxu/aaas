@@ -1,4 +1,4 @@
-package com.arkxu.aaas.modeling.connector
+package com.arkxu.aaas.model.connector
 
 import java.net.InetAddress
 

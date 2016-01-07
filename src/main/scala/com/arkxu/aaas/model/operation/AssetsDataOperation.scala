@@ -1,7 +1,7 @@
-package com.arkxu.aaas.modeling.operation
+package com.arkxu.aaas.model.operation
 
-import com.arkxu.aaas.modeling.connector.CassandraConnector
-import com.arkxu.aaas.modeling.entity.{Asset, AssetByPath, AssetByPaths, Assets}
+import com.arkxu.aaas.model.connector.CassandraConnector
+import com.arkxu.aaas.model.entity.{Asset, AssetByPath, AssetByPaths, Assets}
 import com.websudos.phantom.dsl._
 
 import scala.concurrent.duration._
@@ -30,7 +30,7 @@ trait AssetsDataOperation extends CassandraConnector {
         .future().flatMap {
         _ => {
           assetByPathModel.insert.value(_.path, asset.path)
-            .value(_.id, asset.id).future()
+            .value(_.id, asset.id).value(_.name, asset.name).future()
         }
       }
     }
@@ -63,4 +63,5 @@ trait AssetsDataOperation extends CassandraConnector {
       }
     }
   }
+
 }

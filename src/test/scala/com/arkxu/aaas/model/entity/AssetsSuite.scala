@@ -1,10 +1,10 @@
-package com.arkxu.aaas.modeling.entity
+package com.arkxu.aaas.model.entity
 
 import java.io.{File}
 import java.nio.ByteBuffer
 
 import com.datastax.driver.core.utils.UUIDs
-import com.arkxu.aaas.modeling.operation.AssetsDataOperation
+import com.arkxu.aaas.model.operation.AssetsDataOperation
 import org.apache.commons.io.FileUtils
 import org.joda.time.DateTime
 import org.junit.runner.RunWith
