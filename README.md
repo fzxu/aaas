@@ -11,7 +11,7 @@ performance image server.
 You need:
 
 * Java 8
-* Cassandra DB 2.2.x
+* Cassandra DB 3.0.2
 * SBT: [http://www.scala-sbt.org/](http://www.scala-sbt.org/)
 
 If you are a mac user and use `brew`, install them are as simple as:
@@ -31,7 +31,7 @@ Connect to Cassandra console:
 $ cqlsh
 
 Connected to Test Cluster at 127.0.0.1:9042.
-[cqlsh 5.0.1 | Cassandra 2.2.3 | CQL spec 3.3.1 | Native protocol v4]
+[cqlsh 5.0.1 | Cassandra 3.0.2 | CQL spec 3.3.1 | Native protocol v4]
 Use HELP for help.
 ```
 
