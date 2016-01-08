@@ -41,10 +41,10 @@ trait GetRoutes extends BaseRoutes with AssetsDataOperation {
               val regex = """__(\d*)(\w)(\d*).*""".r
               val img = restString match {
                 case regex(width, m, height) =>
-                  ImageOp.resizeWithCache(as.binary.array(), m, width.toInt, height.toInt, s"$id$rest")
+                  ImageOp.resizeWithCache(as.binary, m, width.toInt, height.toInt, s"$id$rest")
 
                 case _ =>
-                  ImageOp.withCache(as.binary.array(), defaultWidth, defaultHeight, s"$id$rest")
+                  ImageOp.withCache(as.binary, defaultWidth, defaultHeight, s"$id$rest")
               }
               complete {
                 HttpResponse(
