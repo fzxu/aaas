@@ -2,12 +2,13 @@ package com.arkxu.aaas.image
 
 import java.io.File
 import java.nio.ByteBuffer
-import java.util.UUID
 
-import akka.actor.{Props, Actor}
+import akka.actor.{Actor, Props}
 import com.arkxu.aaas.Implicits
+import com.arkxu.aaas.api.v1.AssetRsc
 import com.arkxu.aaas.model.entity.Asset
 import com.arkxu.aaas.model.operation.AssetsDataOperation
+import com.datastax.driver.core.utils.UUIDs
 import com.sksamuel.scrimage.Image
 import com.sksamuel.scrimage.nio.JpegWriter
 import org.apache.commons.io.FileUtils
@@ -19,7 +20,7 @@ import org.joda.time.DateTime
   */
 
 // Resize and Save the image to DB
-case class ImageStoreMsg(id: UUID, filename: String, path: String, bytes: Array[Byte])
+case class ImageStoreMsg(filename: String, path: String, bytes: Array[Byte])
 
 // Get and resize the image, cache to file system
 case class ImageReadMsg(mode: String, width: Int, height: Int, bytes: Array[Byte], filename: String)
@@ -41,12 +42,18 @@ class ImgeProcessActor extends Actor with AssetsDataOperation with Implicits {
       val storeQuality = aaasConfig.getInt("aaas.storeQuality")
       implicit val write = JpegWriter.apply(storeQuality, false)
 
+      val id = UUIDs.timeBased()
+      val filename = imgStoreMsg.filename
+      val path = imgStoreMsg.path
+      val createdAt = DateTime.now()
       val img = Image(imgStoreMsg.bytes).max(storeWidth, storeHeight)
-      val asset = Asset(imgStoreMsg.id, imgStoreMsg.filename, imgStoreMsg.path, "image/jpeg",
-        DateTime.now(), ByteBuffer.wrap(img.bytes))
+
+      val asset = Asset(id, filename, path, "image/jpeg", createdAt, ByteBuffer.wrap(img.bytes))
       model.save(asset).onFailure {
         case err => log.error(err, s"Can not save image: $imgStoreMsg.filename")
       }
+
+      sender() ! AssetRsc(id, filename, "image/jpeg", path.split(","), createdAt)
     case imgFileCacheMsg: ImageReadMsg =>
       val readQuality = aaasConfig.getInt("aaas.readQuality")
       implicit val write = JpegWriter.apply(readQuality, false)
