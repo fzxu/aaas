@@ -1,16 +1,15 @@
-package com.arkxu.aaas.api.v1
+package com.arkxu.aaas
 
 import akka.actor.ActorSystem
-import akka.event.{Logging, LoggingAdapter}
+import akka.event.{LoggingAdapter, Logging}
 import akka.stream.ActorMaterializer
-import com.arkxu.aaas.Marshallers
 import com.typesafe.config.ConfigFactory
 import org.json4s.DefaultFormats
 
 /**
-  * Created by arkxu on 12/23/15.
+  * Created by fangxu on 1/9/16.
   */
-trait BaseRoutes {
+trait Implicits {
   implicit val system = ActorSystem("aaas")
   implicit val materializer = ActorMaterializer()
   implicit val ec = system.dispatcher

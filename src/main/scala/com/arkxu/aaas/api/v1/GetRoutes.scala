@@ -4,15 +4,20 @@ import java.io.File
 
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
-import com.arkxu.aaas.image.ImageOp
+import akka.pattern.ask
+import com.arkxu.aaas.Implicits
+import com.arkxu.aaas.image.ImageReadMsg
 import com.arkxu.aaas.model.operation.AssetsDataOperation
+import com.sksamuel.scrimage.Image
 import org.apache.commons.io.IOUtils
 import org.json4s.native.Serialization
+
+import scala.concurrent.Future
 
 /**
   * Created by arkxu on 12/23/15.
   */
-trait GetRoutes extends BaseRoutes with AssetsDataOperation {
+trait GetRoutes extends BaseRoute with Implicits with AssetsDataOperation {
   val defaultWidth = aaasConfig.getInt("aaas.defaultWidth")
   val defaultHeight = aaasConfig.getInt("aaas.defaultHeight")
   val tmpDir = aaasConfig.getString("aaas.tmpDir")
@@ -39,18 +44,24 @@ trait GetRoutes extends BaseRoutes with AssetsDataOperation {
             case Some(as) =>
               val restString = rest.toString()
               val regex = """__(\d*)(\w)(\d*).*""".r
-              val img = restString match {
+              val imgFuture: Future[Image] = restString match {
                 case regex(width, m, height) =>
-                  ImageOp.resizeWithCache(as.binary, m, width.toInt, height.toInt, s"$id$rest")
+                  (imageProcessActor ? ImageReadMsg(m, width.toInt, height.toInt, as.binary.array(),
+                    s"$id$rest")).mapTo[Image]
 
                 case _ =>
-                  ImageOp.withCache(as.binary, defaultWidth, defaultHeight, s"$id$rest")
+                  (imageProcessActor ? ImageReadMsg("z", defaultWidth, defaultHeight, as.binary.array(),
+                    s"$id$rest")).mapTo[Image]
               }
-              complete {
-                HttpResponse(
-                  status = StatusCodes.OK,
-                  entity = HttpEntity(ContentType(MediaTypes.`image/jpeg`), img.bytes)
-                )
+
+              onSuccess(imgFuture) {
+                case img =>
+                  complete {
+                    HttpResponse(
+                      status = StatusCodes.OK,
+                      entity = HttpEntity(ContentType(MediaTypes.`image/jpeg`), img.bytes)
+                    )
+                  }
               }
           }
         }

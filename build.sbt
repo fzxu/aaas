@@ -4,10 +4,12 @@ version := "1.0"
 
 scalaVersion := "2.11.7"
 
-val phantomVersion = "1.18.0"
+val akkaVersion = "2.4.1"
 val akkaHttpVersion = "2.0.1"
+val phantomVersion = "1.18.0"
 val json4sVersion = "3.3.0"
 val slf4jVersion = "1.7.13"
+val logbackVersion = "1.1.3"
 
 resolvers ++= Seq(
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
@@ -26,13 +28,16 @@ libraryDependencies ++= Seq(
   "junit" % "junit" % "4.12",
   "org.scalatest" %% "scalatest" % "2.2.5",
   "commons-io" % "commons-io" % "2.4",
+  "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+  "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
   "com.typesafe.akka" %% "akka-http-experimental" % akkaHttpVersion,
   "com.sksamuel.scrimage" %% "scrimage-core" % "2.1.0",
   "org.json4s" %% "json4s-jackson" % json4sVersion,
   "org.json4s" %% "json4s-ext" % json4sVersion,
   "org.json4s" %% "json4s-native" % json4sVersion,
   "org.slf4j" % "slf4j-api" % slf4jVersion,
-  "ch.qos.logback" % "logback-classic" % "1.1.3"
+  "ch.qos.logback" % "logback-core" % logbackVersion,
+  "ch.qos.logback" % "logback-classic" % logbackVersion
 )
 
 assemblyMergeStrategy in assembly := {

@@ -1,29 +1,23 @@
 package com.arkxu.aaas.api.v1
 
-import java.nio.ByteBuffer
-
 import akka.http.scaladsl.model.Multipart.BodyPart
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.util.ByteString
-import com.datastax.driver.core.utils.UUIDs
+import com.arkxu.aaas.Implicits
 import com.arkxu.aaas.auth.BasicAuth
-import com.arkxu.aaas.model.entity.Asset
+import com.arkxu.aaas.image.ImageStoreMsg
 import com.arkxu.aaas.model.operation.AssetsDataOperation
-import com.sksamuel.scrimage.Image
-import com.sksamuel.scrimage.nio.JpegWriter
+import com.datastax.driver.core.utils.UUIDs
 import org.joda.time.DateTime
 
 
 /**
   * Created by arkxu on 12/23/15.
   */
-trait PostRoutes extends BaseRoutes with AssetsDataOperation {
-  val storeWidth = aaasConfig.getInt("aaas.storeWidth")
-  val storeHeight = aaasConfig.getInt("aaas.storeHeight")
+
+trait PostRoutes extends BaseRoute with Implicits with AssetsDataOperation {
   val uploadParallelism = aaasConfig.getInt("aaas.uploadParallelism")
-  val storeQuality = aaasConfig.getInt("aaas.storeQuality")
-  implicit val write = JpegWriter.apply(storeQuality, false)
 
   val postRoutes =
     post {
@@ -35,17 +29,13 @@ trait PostRoutes extends BaseRoutes with AssetsDataOperation {
               case b: BodyPart =>
                 b.entity.dataBytes.runFold(ByteString()) { (out, bytes) =>
                   out ++ bytes
-                }.map[AssetRsc] { bytes =>
+                }.map[AssetRsc] { byteString =>
                   b.filename match {
                     case Some(filename) =>
                       val uuid = UUIDs.timeBased()
                       val createdAt = DateTime.now()
-                      val img = Image(bytes.toArray).max(storeWidth, storeHeight)
-                      val asset = Asset(uuid, filename, segments.mkString(","), "image/jpeg", createdAt,
-                        ByteBuffer.wrap(img.bytes))
-                      model.save(asset).onFailure {
-                        case err => log.error(err, s"Can not save image: $filename")
-                      }
+                      imageProcessActor ! ImageStoreMsg(uuid, filename, segments.mkString(","),
+                        byteString.toArray)
                       val assetRsc = AssetRsc(uuid, filename, "image/jpeg", segments, createdAt)
                       assetRsc
                   }

@@ -2,7 +2,6 @@ package com.arkxu.aaas
 
 import akka.http.scaladsl.Http
 import com.arkxu.aaas.api.v1.Routes
-import com.arkxu.aaas.model.operation.AssetsDataOperation
 
 import scala.util.{Failure, Success}
 
