@@ -1,4 +1,4 @@
-package com.arkxu.aaas.api.v1
+package com.arkxu.aaas.api
 
 import java.util.UUID
 

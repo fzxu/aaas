@@ -2,7 +2,7 @@ package com.arkxu.aaas
 
 import java.util.UUID
 
-import com.arkxu.aaas.api.v1.AssetRsc
+import com.arkxu.aaas.api.AssetRsc
 import com.arkxu.aaas.model.entity.AssetByPath
 import org.joda.time.DateTime
 import org.json4s.JsonAST.{JArray, JField, JObject, JString}

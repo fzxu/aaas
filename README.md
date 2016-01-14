@@ -78,7 +78,7 @@ java -cp conf:`ls target/scala*/aaas-assembly*.jar | tr ' ' ':'` -Dconfig.resour
 
 ## Upload Image
 
-The endpoint to upload image: `http://localhost:8090/v1`
+The endpoint to upload image: `http://localhost:8090/foo/bar`
 
 Feel free to use any tools. e.g. [Postman](http://www.getpostman.com/) to send image to the server.
 
@@ -110,7 +110,7 @@ setting in the configuration.
 
 Open your browser and access the image using:
 
-`http://localhost:8090/v1/{UUID}.jpg`
+`http://localhost:8090/{UUID}.jpg`
 
 You will get the image back in default sizes(Remember the default width/height in configuration?).
 
@@ -118,18 +118,18 @@ You also can get the resized image in two modes: **resize** or **crop**
 
 ### Get Resized Image
 
-`http://localhost:8090/v1/{UUID}__{width}z{height}.jpg`
+`http://localhost:8090/{UUID}__{width}z{height}.jpg`
 
 ### Get Cropped Image
 
-`http://localhost:8090/v1/{UUID}__{width}x{height}.jpg`
+`http://localhost:8090/{UUID}__{width}x{height}.jpg`
 
 
 ## List Images under a path
 
 Send GET request to the path you uploaded to, it will return all the image UUIDs in that folder:
  
-`http://localhost:8090/v1/foo/bar/`
+`http://localhost:8090/foo/bar/`
 
 ## Delete Image(s)
 
@@ -137,11 +137,11 @@ Send DELETE request (with authentication of course) to a single image, or to its
 
 This will delete all the images under `/foo/bar`
 
-DELETE `http://localhost:8090/v1/foo/bar/`
+DELETE `http://localhost:8090/foo/bar/`
 
 This deletes only one image with that specified UUID:
 
-DELETE `http://localhost:8090/v1/{UUID}.jpg`
+DELETE `http://localhost:8090/{UUID}.jpg`
 
 # Contribution
 

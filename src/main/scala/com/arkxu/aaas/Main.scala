@@ -1,7 +1,7 @@
 package com.arkxu.aaas
 
 import akka.http.scaladsl.Http
-import com.arkxu.aaas.api.v1.Routes
+import com.arkxu.aaas.api.Routes
 
 import scala.util.{Failure, Success}
 

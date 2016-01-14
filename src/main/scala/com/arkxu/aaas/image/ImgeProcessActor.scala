@@ -5,7 +5,7 @@ import java.nio.ByteBuffer
 
 import akka.actor.{Actor, Props}
 import com.arkxu.aaas.Implicits
-import com.arkxu.aaas.api.v1.AssetRsc
+import com.arkxu.aaas.api.AssetRsc
 import com.arkxu.aaas.model.entity.Asset
 import com.arkxu.aaas.model.operation.AssetsDataOperation
 import com.datastax.driver.core.utils.UUIDs
